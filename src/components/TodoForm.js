@@ -22,11 +22,24 @@ const TodoForm = (props) => {
       isComplete: false,
     });
 
+    
+
     setInput('');
   };
 
+  const handleUpdate = (e) =>{
+    e.preventDefault();
+
+    props.onSubmit({
+      text: input,
+      isComplete: false,
+    })
+
+    setInput('');
+  }
+
   return (
-    <form className='todo-form' onSubmit={handleSubmit}>
+    <form className='todo-form' onSubmit={props.edit ? handleUpdate : handleSubmit}>
       {props.edit ? (
         <>
           <input

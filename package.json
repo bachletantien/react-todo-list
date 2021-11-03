@@ -10,10 +10,12 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "cypress open",
-    "eject": "react-scripts eject"
+    "start": "set \"NODE_ENV=development\" && react-scripts start",
+    "build": "set \"NODE_ENV=production\" && react-scripts build",
+    "test:dev": "set \"NODE_ENV=development\" && cypress open",
+    "test:prod": "set \"NODE_ENV=production\" && cypress open",
+    "eject": "react-scripts eject",
+    "server": "json-server --watch db.json --port 5000"
   },
   "eslintConfig": {
     "extends": [
@@ -34,6 +36,7 @@
     ]
   },
   "devDependencies": {
-    "cypress": "^8.7.0"
+    "cypress": "^8.7.0",
+    "json-server": "^0.17.0"
   }
 }

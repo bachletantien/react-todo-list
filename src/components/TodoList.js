@@ -4,7 +4,8 @@ import TodoForm from './TodoForm';
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
-  const API_URL = 'https://75296.sse.codesandbox.io/todos';
+  const [message, setMessage] = useState("");
+  const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:5000/todos' : 'https://75296.sse.codesandbox.io/todos';
 
   useEffect(() => {
     fetch(API_URL)
@@ -14,10 +15,17 @@ const TodoList = () => {
 
   const addTodo = (todo) => {
     if (!todo.text || /^\s*$/.test(todo.text)) {
+      setMessage("Todo cannot be empty")
       return;
     }
+
+    if(todos.some(t => t.text === todo.text)) {
+      setMessage("Todo cannot be duplicated")
+      return;
+    }
+
     const newTodos = [todo, ...todos];
-    console.log(todo);
+    setMessage("")
 
     setTodos(newTodos);
 
@@ -49,17 +57,18 @@ const TodoList = () => {
       return;
     }
     setTodos((prev) =>
-      prev.map((item) => (item.id === todoId ? newValue : item))
+      prev.map((item) => (item.id === todoId ? {...newValue, id: todoId} : item))
     );
 
     fetch(`${API_URL}/${todoId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: newValue.text }),
-    });
+    }).then(res => res.json()).then(data => console.log(data));
   };
 
   const removeTodo = (id) => {
+    console.log(id)
     const removeArr = [...todos].filter((todo) => todo.id !== id);
 
     setTodos(removeArr);
@@ -73,6 +82,7 @@ const TodoList = () => {
     <div>
       <h1>What's the Plan for Today?</h1>
       <TodoForm onSubmit={addTodo} />
+      <p>{message}</p>
       <Todo
         todos={todos}
         completeTodo={completeTodo}
