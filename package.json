@@ -14,7 +14,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build:linux": "set GENERATE_SOURCEMAP=false set REACT_APP_LOG_LEVEL=info react-scripts build",
+    "build:win": "set \"GENERATE_SOURCEMAP=false\" && set \"REACT_APP_LOG_LEVEL=info\" && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
