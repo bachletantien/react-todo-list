@@ -4,7 +4,7 @@ import TodoForm from './TodoForm';
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
-  const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = 'https://75296.sse.codesandbox.io/todos';
 
   useEffect(() => {
     fetch(API_URL)
